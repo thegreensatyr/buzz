@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://greensatyr.buzz/sitemap.xml
