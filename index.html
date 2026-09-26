@@ -26,20 +26,38 @@
   "@graph": [
     {
       "@type": "MusicGroup",
+      "@id": "https://greensatyr.buzz/#artist",
       "name": "DJ Green Satyr",
       "url": "https://greensatyr.buzz/",
       "genre": "Electronic",
+      "description": "DJ Green Satyr is a Phoenix, AZ electronic music artist with 30 years of experience, rooted in leather culture and Radical Faerie tradition. Creator of the Satyr Arcana, a 78-card tarot reimagined as music, where every card is a real track and an original piece of portrait art.",
       "image": "https://greensatyr.buzz/satyr-arcana/assets/hero-message.jpg",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Phoenix, Arizona"
+      },
       "sameAs": [
         "https://djgreensatyr.bandcamp.com/",
         "https://soundcloud.com/thegreensatyr",
-        "https://djgreensatyr.live/"
+        "https://djgreensatyr.live/",
+        "https://greensatyr.printful.me/"
       ]
+    },
+    {
+      "@type": "MusicAlbum",
+      "name": "Satyr Arcana I",
+      "url": "https://djgreensatyr.bandcamp.com/album/satyr-arcana-i",
+      "byArtist": { "@id": "https://greensatyr.buzz/#artist" },
+      "description": "The first 15 cards of the Satyr Arcana — a 78-card tarot reimagined as music, each card a real person and an original track.",
+      "numTracks": 15,
+      "genre": "Electronic"
     },
     {
       "@type": "WebSite",
       "name": "The Satyr Arcana",
-      "url": "https://greensatyr.buzz/"
+      "url": "https://greensatyr.buzz/",
+      "about": { "@id": "https://greensatyr.buzz/#artist" },
+      "description": "A 78-card tarot reimagined as music by DJ Green Satyr. Take the free 12-question reading, discover your archetype, and hear its matching track."
     }
   ]
 }
