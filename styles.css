@@ -132,7 +132,7 @@ h3 { font-size: 1rem; }
   background: linear-gradient(180deg, rgba(1, 8, 18, 0.55) 0%, rgba(1, 8, 18, 0.25) 50%, rgba(1, 8, 18, 0.85) 100%);
 }
 .hero .lede { margin: 1.2rem auto 0; }
-.hero-art { max-width: 420px; margin: 2.5rem auto 0; border: 1px solid var(--line); }
+.hero-art { width: 100%; height: auto; max-width: 420px; margin: 2.5rem auto 0; border: 1px solid var(--line); }
 .gold-glow { color: var(--gold); text-shadow: 0 0 30px rgba(212, 175, 55, 0.5); }
 
 /* ─── proof bar ─── */
@@ -173,6 +173,7 @@ h3 { font-size: 1rem; }
 
 /* ─── split section ─── */
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.split > * { min-width: 0; }
 @media (max-width: 820px) { .split { grid-template-columns: 1fr; } }
 .split img { border: 1px solid var(--line); }
 

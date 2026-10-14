@@ -438,83 +438,82 @@
     }
   }
 
-  // ─── RENDER RESULT ───────────────────────────────────────────────────────────
+  // ─── RENDER RESULT (Satyr Arcana Result design, Oct 2026) ────────────────────
+
+  // Traditional archetype behind each card. The song title is the public card
+  // name; the archetype is shown underneath. Temperance / The Devil keep theirs.
+  var ARCHETYPE = {
+    I: 'The Magician', II: 'The High Priestess', III: 'The Empress',
+    IV: 'The Emperor', V: 'The Hierophant', VI: 'The Lovers',
+    VII: 'The Chariot', VIII: 'Strength', IX: 'The Hermit',
+    X: 'Wheel of Fortune', XI: 'Justice', XII: 'The Hanged Man',
+    XIII: 'Death', XIV: 'Temperance', XV: 'The Devil'
+  };
+  // Public names exactly as released on Bandcamp (slugs/URLs unchanged).
+  var DISPLAY_NAME = { AMother: 'Mother to Them', RightOn: 'RIGHT ON' };
+  var ALT = {
+    AMother: { url: 'https://djgreensatyr.bandcamp.com/track/una-madre-para-ellos',
+               label: 'Also in Spanish — Una Madre Para Ellos' }
+  };
+
+  function cardUrl(r) {
+    return 'https://greensatyr.buzz/satyr-arcana/card/' + r.slug + '/';
+  }
 
   function renderResult(r) {
-    if ($('rc-num'))     $('rc-num').textContent     = r.number;
-    if ($('rc-name'))    $('rc-name').textContent    = r.name;
-    if ($('rc-tag'))     $('rc-tag').textContent     = '“' + r.tagline + '”';
-    if ($('rc-meaning')) $('rc-meaning').textContent = r.meaning;
-    if ($('rc-shadow'))  $('rc-shadow').textContent  = r.shadow;
-    if ($('rc-gift'))    $('rc-gift').textContent    = r.gift;
-    if ($('rc-mood'))    $('rc-mood').textContent    = 'Track mood: ' + r.mood;
+    var idx  = OUTCOMES.indexOf(r);
+    var name = DISPLAY_NAME[r.key] || r.name;
+    var arch = ARCHETYPE[r.number];
 
-    var rcArt = $('rc-art');
-    if (rcArt) {
-      rcArt.src = r.art;
-      rcArt.alt = r.name + ' — Satyr Arcana ' + r.number;
-      rcArt.classList.remove('hidden');
+    var art = $('rc-art');
+    if (art) {
+      art.src = r.art;
+      art.alt = name + ' — Satyr Arcana card ' + r.number;
     }
+    if ($('rc-track'))   $('rc-track').textContent = 'Satyr Arcana (I) · Track ' + (idx + 1) + ' of 16';
+    if ($('rc-name'))    $('rc-name').textContent  = name;
+    if ($('rc-song'))    $('rc-song').textContent  = (arch && arch !== name) ? 'Card ' + r.number + ' · in the place of ' + arch : 'Card ' + r.number;
+    if ($('rc-meaning')) $('rc-meaning').textContent = r.meaning;
 
     var listen = $('rc-listen');
-    if (listen) {
-      listen.href             = r.bandcampUrl;
-      listen.style.background = r.color;
-      listen.style.borderColor = r.color;
-      listen.style.boxShadow  = '0 0 24px ' + r.color + '40';
+    if (listen) listen.href = r.bandcampUrl;
+
+    var alt = $('rc-alt');
+    if (alt) {
+      var a = ALT[r.key];
+      if (a) {
+        alt.href = a.url;
+        if ($('rc-alt-label')) $('rc-alt-label').textContent = a.label;
+        alt.classList.remove('hidden');
+      } else {
+        alt.classList.add('hidden');
+      }
     }
 
-    var rc = $('rc');
-    if (rc) {
-      rc.style.borderColor = r.color + '50';
-      rc.style.boxShadow   = '0 0 80px ' + r.color + '12';
-      rc.style.background  = 'linear-gradient(135deg, ' + r.color + '08 0%, rgba(5,10,5,0.97) 60%)';
-    }
-
-    if ($('rc-num'))  $('rc-num').style.color  = r.color;
-    if ($('rc-name')) $('rc-name').style.color = r.color;
-
-    // upsell
-    var upsellName = $('rc-upsell-name');
-    if (upsellName) upsellName.textContent = r.name;
-
-    // merch
-    var mi = $('rc-merch-img');
-    var mt = $('rc-merch-text');
-    if (mi) mi.src = r.art;
-    if (mt) mt.textContent = r.number + ' — ' + r.name + ' print available now.';
-
-    // deck grid
-    var deck = $('rc-deck');
-    if (deck) {
-      deck.innerHTML = '';
-      OUTCOMES.forEach(function (o) {
-        var d = document.createElement('div');
-        d.className        = 'deck-item';
-        d.style.border     = '1px solid ' + (o.key === r.key ? o.color + '60' : o.color + '15');
-        d.style.background = o.key === r.key ? o.color + '10' : o.color + '04';
-        d.innerHTML =
-          '<p class="mono" style="font-size:.65rem;color:' + o.color +
-          ';opacity:' + (o.key === r.key ? '1' : '.5') + ';margin-bottom:.2rem">' + o.number + '</p>' +
-          '<p style="font-size:.7rem;color:' + (o.key === r.key ? '#e8e8e8' : 'rgba(232,232,232,.4)') +
-          ';line-height:1.3">' + o.name + '</p>';
-        deck.appendChild(d);
-      });
-    }
-
-    // share
-    var shareUrl  = 'https://greensatyr.buzz/satyr-arcana/card/' + r.slug + '/';
-    var shareText = 'I took the Satyr Arcana ritual — my card is ' + r.number + ' — ' + r.name + '. “' + r.tagline + '” Find yours at GreenSatyr.Buzz';
+    // share: native share sheet on phones, clipboard everywhere else
+    var shareUrl  = cardUrl(r);
+    var shareText = 'I drew ' + name + ' (Card ' + r.number + ') in the Satyr Arcana. Draw yours at GreenSatyr.Buzz';
     if (elShCopy) {
+      elShCopy.textContent = 'Share your card';
       elShCopy.onclick = function () {
-        navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(function () {
-          elShCopy.textContent = 'Copied!';
-          setTimeout(function () { elShCopy.textContent = 'Copy to Share'; }, 2000);
-        });
+        if (navigator.share) {
+          navigator.share({ title: name + ' — Satyr Arcana', text: shareText, url: shareUrl }).catch(function () {});
+          return;
+        }
+        var done = function () {
+          elShCopy.textContent = 'Link copied';
+          setTimeout(function () { elShCopy.textContent = 'Share your card'; }, 2000);
+        };
+        try {
+          navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(done, function () { window.prompt('Copy your card link:', shareUrl); });
+        } catch (e) { window.prompt('Copy your card link:', shareUrl); }
       };
     }
-    if (elShX)  elShX.href  = 'https://x.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(shareUrl);
-    if (elShFb) elShFb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl);
+
+    // bring the card into view (phones land mid-page after the email step)
+    if (elResult && elResult.scrollIntoView) {
+      setTimeout(function () { elResult.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 30);
+    }
   }
 
   // ─── RESET ───────────────────────────────────────────────────────────────────
@@ -525,6 +524,8 @@
     selected = null;
     result   = null;
     showStep('intro');
+    var qz = document.getElementById('quiz');
+    if (qz && qz.scrollIntoView) qz.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // ─── WIRE UP EVENTS ──────────────────────────────────────────────────────────
