@@ -451,6 +451,17 @@
   };
   // Public names exactly as released on Bandcamp (slugs/URLs unchanged).
   var DISPLAY_NAME = { AMother: 'Mother to Them', RightOn: 'RIGHT ON' };
+  // Per-card canvas print on the Printful store (verified Oct 14, 2026).
+  // Any card without a link falls back to the main store.
+  var STORE_HOME = 'https://greensatyr.printful.me/';
+  var CANVAS = {
+    DreamTraveler: 'dream-traveler-canvas-print', SheKnew: 'she-knew-canvas-print',
+    AMother: 'a-mother-to-them', Anchor: 'the-anchor-canvas-print', RightOn: 'thin-canvas',
+    FWB: 'fwb-canvas-print', Message: 'the-message-canvas-print', Spark: 'the-spark-canvas-print',
+    Reconfiguration: 'reconfiguration-canvas-print', Fate: 'fate-canvas-print', KarmicJustice: 'karma-canvas-print',
+    Perspective: 'perspective-canvas-print', SantaMuerte: 'santa-muerte-canvas-print',
+    Temperance: 'temperance-canvas-print', Devil: 'the-devil-canvas-print'
+  };
   var ALT = {
     AMother: { url: 'https://djgreensatyr.bandcamp.com/track/una-madre-para-ellos',
                label: 'Also in Spanish — Una Madre Para Ellos' }
@@ -477,6 +488,9 @@
 
     var listen = $('rc-listen');
     if (listen) listen.href = r.bandcampUrl;
+
+    var store = $('rc-store');
+    if (store) store.href = CANVAS[r.key] ? STORE_HOME + 'product/' + CANVAS[r.key] : STORE_HOME;
 
     var alt = $('rc-alt');
     if (alt) {
