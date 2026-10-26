@@ -130,7 +130,7 @@
       gift: 'Keeping love alive across every threshold',
       mood: 'Astral, slick, rhythmic — a spell cast on the dancefloor',
       color: '#D4AF37',
-      art: 'assets/card-dream-traveler.jpg',
+      art: '/satyr-arcana/assets/card-dream-traveler.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/the-dream-traveler',
     },
     {
@@ -144,7 +144,7 @@
       gift: 'Unconditional, all-knowing love',
       mood: 'Hypnotic, moonlit, minimal',
       color: '#9B59B6',
-      art: 'assets/card-she-knew.jpg',
+      art: '/satyr-arcana/assets/card-she-knew.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/she-knew',
     },
     {
@@ -158,7 +158,7 @@
       gift: 'Radical, non-judgmental presence',
       mood: 'Soulful, warm, unhurried',
       color: '#27AE60',
-      art: 'assets/card-mother.jpg',
+      art: '/satyr-arcana/assets/card-mother.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/mother-to-them',
     },
     {
@@ -172,7 +172,7 @@
       gift: 'Immovable integrity',
       mood: 'Heavy, percussive, deeply grounded',
       color: '#8B7355',
-      art: 'assets/card-anchor.jpg',
+      art: '/satyr-arcana/assets/card-anchor.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/the-anchor-in-the-room',
     },
     {
@@ -186,7 +186,7 @@
       gift: 'Making belonging possible for others',
       mood: 'Ritualistic, slow-building, communal',
       color: '#F39C12',
-      art: 'assets/card-right-on.jpg',
+      art: '/satyr-arcana/assets/card-right-on.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/right-on',
     },
     {
@@ -200,7 +200,7 @@
       gift: 'Intimacy without possession',
       mood: 'Warm, sensual, free',
       color: '#E91E8C',
-      art: 'assets/card-fwb.jpg',
+      art: '/satyr-arcana/assets/card-fwb.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/f-w-b',
     },
     {
@@ -214,7 +214,7 @@
       gift: 'Carrying stories further than one person could go alone',
       mood: 'Kinetic, forward-moving, adrenaline-charged',
       color: '#00C8FF',
-      art: 'assets/card-message.jpg',
+      art: '/satyr-arcana/assets/card-message.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/the-message',
     },
     {
@@ -228,7 +228,7 @@
       gift: 'Turning personal pain into collective protection',
       mood: 'Warm, steady, purposeful',
       color: '#FF6B35',
-      art: 'assets/card-spark.jpg',
+      art: '/satyr-arcana/assets/card-spark.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/the-spark',
     },
     {
@@ -242,7 +242,7 @@
       gift: 'Hard-won illumination',
       mood: 'Minimal, echoing, introspective',
       color: '#95A5A6',
-      art: 'assets/card-reconfiguration.jpg',
+      art: '/satyr-arcana/assets/card-reconfiguration.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/reconfiguration',
     },
     {
@@ -256,7 +256,7 @@
       gift: 'Seeing exit doors others can\'t find yet',
       mood: 'Pulsing, circular, building toward release',
       color: '#8E44AD',
-      art: 'assets/card-fate.jpg',
+      art: '/satyr-arcana/assets/card-fate.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/fate',
     },
     {
@@ -270,7 +270,7 @@
       gift: 'Living in deep alignment with consequence',
       mood: 'Sharp, clean, symmetrical',
       color: '#F1C40F',
-      art: 'assets/card-karma.jpg',
+      art: '/satyr-arcana/assets/card-karma.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/karmic-justice',
     },
     {
@@ -284,7 +284,7 @@
       gift: 'Faithfulness through grief and the impossible',
       mood: 'Suspended, atmospheric, aching',
       color: '#1ABC9C',
-      art: 'assets/card-perspective.jpg',
+      art: '/satyr-arcana/assets/card-perspective.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/perspective',
     },
     {
@@ -298,7 +298,7 @@
       gift: 'Serenity at every threshold',
       mood: 'Dark, pulsing, liminal',
       color: '#BDC3C7',
-      art: 'assets/card-santa-muerte.jpg',
+      art: '/satyr-arcana/assets/card-santa-muerte.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/santa-muerte',
     },
     {
@@ -312,7 +312,7 @@
       gift: 'Healing backward through time',
       mood: 'Quiet, reverent, ancestral',
       color: '#5D8AA8',
-      art: 'assets/card-temperance.jpg',
+      art: '/satyr-arcana/assets/card-temperance.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/temperance',
     },
     {
@@ -326,7 +326,7 @@
       gift: 'Seeing through every illusion',
       mood: 'Seductive, knowing, sharp-edged',
       color: '#C0392B',
-      art: 'assets/card-de-ville.jpg',
+      art: '/satyr-arcana/assets/card-de-ville.jpg',
       bandcampUrl: 'https://djgreensatyr.bandcamp.com/track/the-devil',
     },
   ];
