@@ -382,6 +382,7 @@
   var elRetake      = $('qz-retake');
   var elReveal      = $('qz-reveal');
   var elEmailInput  = $('qz-email-input');
+  var elEmailError  = $('qz-email-error');
   var elShCopy      = $('sh-copy');
   var elShX         = $('sh-x');
   var elShFb        = $('sh-fb');
@@ -524,9 +525,30 @@
       };
     }
 
-    // bring the card into view (phones land mid-page after the email step)
-    if (elResult && elResult.scrollIntoView) {
-      setTimeout(function () { elResult.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 30);
+    // Bring the card into view. On phones the on-screen keyboard is usually
+    // still open (focus was just on the email field) and its close animation
+    // resizes the viewport; scrolling too early lands on the pre-close layout
+    // and the card can end up looking like it never appeared. Blur the input
+    // and wait for the viewport to settle (or a fixed fallback) before scrolling.
+    if (elEmailInput) { try { elEmailInput.blur(); } catch (e) {} }
+    var scrolled = false;
+    function scrollToResult() {
+      if (scrolled) return;
+      scrolled = true;
+      if (elResult && elResult.scrollIntoView) {
+        elResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    if (window.visualViewport) {
+      var vv = window.visualViewport;
+      var onVVResize = function () {
+        vv.removeEventListener('resize', onVVResize);
+        setTimeout(scrollToResult, 60);
+      };
+      vv.addEventListener('resize', onVVResize);
+      setTimeout(scrollToResult, 450); // fallback if no resize ever fires
+    } else {
+      setTimeout(scrollToResult, 350);
     }
   }
 
@@ -591,6 +613,34 @@
     showStep('result');
   }
 
+  // Validate with our own regex rather than relying on checkValidity() /
+  // reportValidity(). The native validation bubble is browser UI, not
+  // something a page controls — several in-app browsers (Instagram, TikTok,
+  // Facebook) silently skip rendering it. In those, an invalid email used to
+  // make the Reveal button a dead no-op: checkValidity() returns false,
+  // reportValidity() shows nothing, and the user sees nothing happen at all.
+  // This puts a visible, in-page message there instead, which works the same
+  // in every browser.
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v || '').trim());
+  }
+
+  function tryReveal() {
+    if (elEmailInput && !isValidEmail(elEmailInput.value)) {
+      if (elEmailError) show(elEmailError);
+      if (elEmailInput) elEmailInput.focus();
+      return;
+    }
+    if (elEmailError) hide(elEmailError);
+    revealCard();
+  }
+
+  if (elEmailInput) {
+    elEmailInput.addEventListener('input', function () {
+      if (elEmailError) hide(elEmailError);
+    });
+  }
+
   // Primary path: a plain button (not type=submit) can never trigger a native
   // form submission, so there is nothing for JS to race against. This is what
   // fixes the "no card" bug — previously a native submit could sometimes beat
@@ -599,11 +649,7 @@
   if (elReveal) {
     elReveal.addEventListener('click', function (e) {
       e.preventDefault();
-      if (elEmailInput && !elEmailInput.checkValidity()) {
-        elEmailInput.reportValidity();
-        return;
-      }
-      revealCard();
+      tryReveal();
     });
   }
 
@@ -613,11 +659,7 @@
   if (elForm) {
     elForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (elEmailInput && !elEmailInput.checkValidity()) {
-        elEmailInput.reportValidity();
-        return;
-      }
-      revealCard();
+      tryReveal();
     });
   }
 
