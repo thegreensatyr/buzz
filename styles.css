@@ -358,3 +358,22 @@ section[style*="border-top"] { border-top-color: rgba(217, 180, 91, 0.28) !impor
   opacity: 0.9;
 }
 
+/* ─── blog / long-form articles ─── */
+.article { max-width: 680px; margin: 0 auto; padding: 2.6rem 1.2rem 4rem; }
+.article .byline { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 2rem; }
+.article h1 { margin-bottom: 1.6rem; }
+.article h2 { margin-top: 2.4rem; color: var(--gold); }
+.article p { font-family: var(--font-serif); font-size: 1.08rem; color: var(--ink-dim); margin-bottom: 1.3rem; }
+.article p strong { color: var(--ink); }
+.article hr { border: none; border-top: 1px solid var(--line); margin: 2.8rem 0; }
+.article .faq-block { margin-top: 1.6rem; }
+.article .faq-item { border: 1px solid var(--line); background: var(--panel); padding: 1.1rem 1.3rem; margin-bottom: 0.8rem; }
+.article .faq-item p.q { font-family: var(--font-display); font-size: 0.98rem; color: var(--gold); margin-bottom: 0.4rem; }
+.article .faq-item p.a { font-family: var(--font-serif); font-size: 0.95rem; color: var(--ink-dim); margin-bottom: 0; }
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; margin-top: 2rem; }
+.blog-card { display: block; border: 1px solid var(--line); background: var(--panel); padding: 1.4rem 1.5rem; transition: border-color 0.2s; }
+.blog-card:hover { border-color: var(--gold); }
+.blog-card .kicker { margin-bottom: 0.6rem; }
+.blog-card h3 { font-family: var(--font-display); font-size: 1.15rem; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.3; }
+.blog-card p { font-family: var(--font-serif); font-size: 0.92rem; color: var(--ink-dim); margin: 0; }
+
