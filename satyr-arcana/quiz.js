@@ -1,117 +1,177 @@
-/* Satyr Arcana Quiz — 30 outcomes, one per song, across both released decks.
-   Part I (15 cards, Beltane 2026) + Part II (15 cards, Samhain 2026).
-   Every question is a forced this-or-that choice; each option scores exactly
-   one Part I card and one Part II card together, so every answer moves both
-   decks at once and every one of the 30 cards is reachable. */
+/* Satyr Arcana Quiz — 30 independently-reachable outcomes, one per song,
+   across both released decks. Every question is a genuine either/or between
+   TWO specific cards (never a forced Part I + Part II bundle), each option
+   scores only the one card it's actually about, and every question offers a
+   third "none of these fit" option that scores nothing. 10 of the stronger,
+   more universal cards get a second question in a different scenario so the
+   scoring can tell them apart instead of defaulting to a coin-flip tie. */
 (function () {
   'use strict';
 
-  // ─── QUESTIONS (15 — binary, built from the real lyrics & show bible) ──────
+  // ─── QUESTIONS (20 — each option scores exactly one card; built from the
+  // cards' own released taglines/meanings, nothing invented) ────────────────
+
+  var SKIP = { text: 'None of these really fit me — skip this one', scores: {} };
 
   var QUESTIONS = [
     {
-      q: 'When grief or hard change shows up, what actually happens in you?',
+      q: 'When you lose someone or something, what actually happens in you?',
       options: [
-        { text: 'I go somewhere else for a while — I visit the people I\'ve lost and let the world rebuild itself without me.', scores: { DreamTraveler: 14, Tower: 14 } },
-        { text: 'I turn what I survived into proof, for someone else, that it gets better.', scores: { Spark: 14, Star: 14 } },
+        { text: 'I go somewhere else for a while — I visit who I\'ve lost and let the world rebuild itself without me.', scores: { DreamTraveler: 14 } },
+        { text: 'I keep hoping anyway, quietly, long after it stopped being reasonable to.', scores: { Star: 14 } },
+        SKIP,
       ],
     },
     {
       q: 'What\'s the quality people trust you with first?',
       options: [
-        { text: 'I\'m the one who already knew, who already saw it coming — and loved you anyway.', scores: { SheKnew: 14, Star2: 14 } },
-        { text: 'I read the room before I say a word. I figure my own way through — I always have.', scores: { Reconfiguration: 14, WiseWoman: 14 } },
+        { text: 'I already know the parts you\'d never say out loud — and I love you deeper for it.', scores: { SheKnew: 14 } },
+        { text: 'I read the room before I open my mouth. I know exactly who you are before you finish the sentence.', scores: { WiseWoman: 14 } },
+        SKIP,
       ],
     },
     {
-      q: 'How do you actually protect the people you love?',
+      q: 'How do you love people the world has already judged?',
       options: [
-        { text: 'I hold space without judgment, and I notice what\'s really going on before anyone says a word.', scores: { AMother: 14, WiseWoman2: 14 } },
-        { text: 'I say the thing out loud that everyone else is too scared to say.', scores: { Fate: 14, Champion: 14 } },
+        { text: 'My love isn\'t rationed or earned. I just sit with you, no questions.', scores: { AMother: 14 } },
+        { text: 'I didn\'t raise you alone — it took a whole grove, and that\'s its own kind of family.', scores: { MothersOfCreation: 14 } },
+        SKIP,
       ],
     },
     {
-      q: 'When something is wrong in the room, what do you do?',
+      q: 'What makes you actually trust someone?',
       options: [
-        { text: 'I stand my ground and say what needs saying — quietly, but completely.', scores: { Anchor: 14, Champion2: 14 } },
-        { text: 'I trust it comes back around eventually, and I ache for anyone still lost, looking for their way home.', scores: { KarmicJustice: 14, LaLuna: 14 } },
+        { text: 'Proof, one hand at a time — trust that\'s built slow, not just handed over.', scores: { Builder: 14 } },
+        { text: 'Having already lived it myself, long before I met you — nothing left to rush or panic about.', scores: { Experience: 14 } },
+        SKIP,
       ],
     },
     {
-      q: 'What does “home” actually feel like to you?',
+      q: 'What\'s your role when the path forward isn\'t clear yet?',
       options: [
-        { text: 'A door that opens right when I need it — even if I had to wander in the dark a while to find it.', scores: { RightOn: 14, LaLuna2: 14 } },
-        { text: 'Someone who stays no matter how many times the world falls apart — and still greets me smiling.', scores: { Perspective: 14, Sun: 14 } },
+        { text: 'I open the door. I make it possible for someone else to walk through.', scores: { RightOn: 14 } },
+        { text: 'I just keep walking, first, eyes open, knowing exactly what going first can cost.', scores: { Fool: 14 } },
+        SKIP,
       ],
     },
     {
-      q: 'What\'s your idea of real intimacy?',
+      q: 'What does real closeness actually feel like to you?',
       options: [
-        { text: 'Warmth without the performance. Real closeness, no armor, easy laughter.', scores: { FWB: 14, Sun2: 14 } },
-        { text: 'Trust built slow, hand by hand, that doesn\'t flinch even while everything is changing.', scores: { SantaMuerte: 14, Builder: 14 } },
+        { text: 'Warm and real, no armor, no need to put a label on it.', scores: { FWB: 14 } },
+        { text: 'I show up exactly as I am — the mask never even gets built.', scores: { Sun: 14 } },
+        SKIP,
       ],
     },
     {
       q: 'What are you actually here to do?',
       options: [
-        { text: 'Carry something forward with my own two hands — a story, a sound, a cause built to outlast me.', scores: { Message: 14, Builder2: 14 } },
-        { text: 'Remember the ones who got overlooked, and raise whoever needs raising — blood or not.', scores: { Temperance: 14, MothersOfCreation: 14 } },
+        { text: 'Carry something forward — a story, a cause, a sound built to outlast me.', scores: { Message: 14 } },
+        { text: 'Bring the music. Be the reason there\'s a party at all.', scores: { KingOfWands: 14 } },
+        SKIP,
       ],
     },
     {
       q: 'Your hardest season taught you —',
       options: [
-        { text: '— how to turn my own worst chapter into protection for someone still living inside theirs.', scores: { Spark2: 14, MothersOfCreation2: 14 } },
-        { text: '— to spot the trap before it closes, because I\'ve already lived through it once.', scores: { Devil: 14, Experience: 14 } },
+        { text: '— how to turn what I survived into protection for someone still living inside it.', scores: { Spark: 14 } },
+        { text: '— to spot the trap before it closes, because I\'ve already lived through it once.', scores: { Devil: 14 } },
+        SKIP,
       ],
     },
     {
       q: 'How do you move through a world that wasn\'t built for you?',
       options: [
-        { text: 'I figure it out from scratch, and I keep my footing — mile after mile.', scores: { Reconfiguration2: 14, Experience2: 14 } },
-        { text: 'I keep walking anyway, even into the night, even half-sure the story isn\'t over.', scores: { DreamTraveler2: 14, Fool: 14 } },
+        { text: 'I figure it out from scratch, and I keep my footing — mile after mile.', scores: { Reconfiguration: 14 } },
+        { text: 'I own the part I played in the drift, out loud, before I ask for anything back.', scores: { KnightOfCups: 14 } },
+        SKIP,
       ],
     },
     {
-      q: 'What do you believe about second chances?',
+      q: 'What do you believe about hitting rock bottom?',
       options: [
-        { text: 'The cycle isn\'t permanent. Even after the worst night, you can still get up and walk.', scores: { Fate2: 14, Fool2: 14 } },
-        { text: 'Some bonds don\'t need explaining. You just know who actually shows up at 2am.', scores: { SheKnew2: 14, KingOfPentacles: 14 } },
+        { text: 'The cycle isn\'t permanent. There\'s an exit door, even if no one else can see it yet.', scores: { Fate: 14 } },
+        { text: 'Everything can fall. I\'m the one left standing, deciding what actually gets rebuilt.', scores: { Tower: 14 } },
+        SKIP,
       ],
     },
     {
-      q: 'What matters more, in the end — fairness or loyalty?',
+      q: 'What matters more to you, in the end — fairness or loyalty?',
       options: [
-        { text: 'Fairness. What goes around comes around, and that includes who actually stayed loyal.', scores: { KarmicJustice2: 14, KingOfPentacles2: 14 } },
-        { text: 'Loyalty with a backbone. I\'ll love you, and I\'ll still hold the line.', scores: { AMother2: 14, KingOfSwords: 14 } },
+        { text: 'Fairness. What goes around genuinely comes back around.', scores: { KarmicJustice: 14 } },
+        { text: 'Loyalty with a backbone. I never have to raise my voice to hold the line.', scores: { KingOfSwords: 14 } },
+        SKIP,
       ],
     },
     {
       q: 'What kind of strength do you respect most?',
       options: [
-        { text: 'The strength to stay through the impossible without ever having to raise your voice.', scores: { Perspective2: 14, KingOfSwords2: 14 } },
-        { text: 'The strength to keep choosing someone, over and over, long after the easy part is over.', scores: { Anchor2: 14, KnightOfCups: 14 } },
+        { text: 'Staying through the impossible, without ever needing credit for it.', scores: { Perspective: 14 } },
+        { text: 'Being the one person who simply never left — no announcement, just still there.', scores: { KingOfCups: 14 } },
+        SKIP,
       ],
     },
     {
-      q: 'How do you feel about endings?',
+      q: 'How do you actually feel about endings?',
       options: [
-        { text: 'Every ending is a threshold, not a closure. I\'d rather try to rekindle it than walk away.', scores: { SantaMuerte2: 14, KnightOfCups2: 14 } },
-        { text: 'I found the place I belonged, and the people who stayed taught me what “staying” even means.', scores: { RightOn2: 14, KingOfCups: 14 } },
+        { text: 'Every ending is a threshold, not a closure. Transformation doesn\'t scare me.', scores: { SantaMuerte: 14 } },
+        { text: 'I call out into the dark anyway, trusting something bigger to bring me home.', scores: { LaLuna: 14 } },
+        SKIP,
       ],
     },
     {
       q: 'What do you want people to actually remember about you?',
       options: [
-        { text: 'That I gave the overlooked ones their dignity back — and that I simply never left.', scores: { Temperance2: 14, KingOfCups2: 14 } },
-        { text: 'That I brought the music. That I turned up the joy in every room, and loved without needing to own anyone.', scores: { FWB2: 14, KingOfWands: 14 } },
+        { text: 'That I gave the overlooked ones their dignity back, and carried what they couldn\'t say.', scores: { Temperance: 14 } },
+        { text: 'That I just kept showing up, night after ordinary night, until it became a life.', scores: { KingOfPentacles: 14 } },
+        SKIP,
       ],
     },
     {
-      q: 'What\'s your relationship to chaos?',
+      q: 'When everyone else has already walked away, what do you do?',
       options: [
-        { text: 'I\'ve survived the trap. Now I know the whole playbook — and I still keep the party alive.', scores: { Devil2: 14, KingOfWands2: 14 } },
-        { text: 'I carry the signal through the noise. When the whole tower comes down, I\'m still transmitting.', scores: { Message2: 14, Tower2: 14 } },
+        { text: 'I stay steady and say the true thing — quietly, but completely.', scores: { Anchor: 14 } },
+        { text: 'I\'m just still there. No announcement. No credit needed.', scores: { KingOfCups: 14 } },
+        SKIP,
+      ],
+    },
+    {
+      q: 'What do you actually understand about people that most don\'t?',
+      options: [
+        { text: 'I already know the parts you\'d never say out loud — and I love you deeper for it.', scores: { SheKnew: 14 } },
+        { text: 'I know the playbook, because I\'ve already survived someone running it on me.', scores: { Devil: 14 } },
+        SKIP,
+      ],
+    },
+    {
+      q: 'How do you actually show someone you\'re on their side?',
+      options: [
+        { text: 'Proof, one hand at a time, until what we\'ve built can hold real weight.', scores: { Builder: 14 } },
+        { text: 'I say the thing out loud that the whole room is too scared to say.', scores: { Champion: 14 } },
+        SKIP,
+      ],
+    },
+    {
+      q: 'What\'s the thing you\'re actually carrying for other people?',
+      options: [
+        { text: 'The voices that were silenced before I ever showed up — I give them back their dignity.', scores: { Temperance: 14 } },
+        { text: 'The mission itself — whatever vehicle I\'ve got, it travels through me.', scores: { Message: 14 } },
+        SKIP,
+      ],
+    },
+    {
+      q: 'When you don\'t know what\'s coming next, what\'s actually true of you?',
+      options: [
+        { text: 'I go first anyway, eyes open, knowing exactly what going first can cost.', scores: { Fool: 14 } },
+        { text: 'I wait, and watch, and know exactly who\'s in the room before I ever open my mouth.', scores: { WiseWoman: 14 } },
+        SKIP,
+      ],
+    },
+    {
+      q: 'If something is wrong in the room, what do you do?',
+      options: [
+        { text: 'I stand my ground and say what needs saying — quietly, but completely.', scores: { Anchor: 14 } },
+        { text: 'I say the thing out loud that everyone else is too scared to say.', scores: { Champion: 14 } },
+        SKIP,
       ],
     },
   ];
@@ -406,9 +466,8 @@
   var BY_KEY = {};
   OUTCOMES.forEach(function (o) { BY_KEY[o.key] = o; });
 
-  // Scoring aliases let the same card accumulate points from two different
-  // questions without the pairing repeating — see the key2/number suffixes
-  // used in QUESTIONS above (e.g. "Star2", "Champion2" both resolve to Star/Champion).
+  // Every QUESTIONS score key is now an exact OUTCOMES key, so this is a
+  // plain pass-through (kept only as a safety net against a typo'd key).
   function resolveKey(rawKey) {
     return BY_KEY[rawKey] ? rawKey : rawKey.replace(/\d+$/, '');
   }
