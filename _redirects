@@ -5,5 +5,7 @@ https://cursedworlds.com/read            /cursedworlds-site/read.html     200!
 https://www.cursedworlds.com/read        /cursedworlds-site/read.html     200!
 https://cursedworlds.com/cursed-worlds/*      /cursedworlds-site/:splat   200!
 https://www.cursedworlds.com/cursed-worlds/*  /cursedworlds-site/:splat   200!
+https://cursedworlds.com/cursedworlds-site/*      /cursedworlds-site/:splat   200!
+https://www.cursedworlds.com/cursedworlds-site/*  /cursedworlds-site/:splat   200!
 https://cursedworlds.com/*               /cursedworlds-site/:splat        200!
 https://www.cursedworlds.com/*           /cursedworlds-site/:splat        200!
