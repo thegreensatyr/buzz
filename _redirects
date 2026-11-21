@@ -1,0 +1,9 @@
+# cursedworlds.com is a domain alias on this site. Serve the Cursed Worlds
+# book site (copied from thegreensatyr/cursed) on that domain only.
+# greensatyr.buzz paths are not affected.
+https://cursedworlds.com/read            /cursedworlds-site/read.html     200!
+https://www.cursedworlds.com/read        /cursedworlds-site/read.html     200!
+https://cursedworlds.com/cursed-worlds/*      /cursedworlds-site/:splat   200!
+https://www.cursedworlds.com/cursed-worlds/*  /cursedworlds-site/:splat   200!
+https://cursedworlds.com/*               /cursedworlds-site/:splat        200!
+https://www.cursedworlds.com/*           /cursedworlds-site/:splat        200!
